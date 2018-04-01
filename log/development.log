@@ -1,0 +1,478 @@
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateTodos (20180328155148)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "todos" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "created_by" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20180328155148"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateItems (20180328155230)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE TABLE "items" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "done" boolean, "todo_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, CONSTRAINT "fk_rails_c01e6b449d"
+FOREIGN KEY ("todo_id")
+  REFERENCES "todos" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_items_on_todo_id" ON "items" ("todo_id")[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20180328155230"]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2018-03-28 15:53:52.816523"], ["updated_at", "2018-03-28 15:53:52.816523"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_items_on_todo_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_items_on_todo_id' AND type='index'
+[0m
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:04:19 -0500
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by TodosController#index as HTML
+  [1m[36mTodo Load (0.4ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 7ms (Views: 1.0ms | ActiveRecord: 0.7ms)
+
+
+Started DELETE "/api/projects" for 127.0.0.1 at 2018-03-29 08:05:17 -0500
+  
+ActionController::RoutingError (No route matches [DELETE] "/api/projects"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:05:57 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 1ms (Views: 0.7ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:08:13 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"mozart", "creator_id"=>"1"}
+Unpermitted parameter: :creator_id
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+Completed 422 Unprocessable Entity in 12ms (Views: 0.1ms | ActiveRecord: 0.5ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:08:23 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"mozart", "\"created_by\n\""=>"1"}
+Unpermitted parameter: :"created_by
+"
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+Completed 422 Unprocessable Entity in 3ms (Views: 0.2ms | ActiveRecord: 0.1ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:08:24 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"mozart", "\"created_by\n\""=>"1"}
+Unpermitted parameter: :"created_by
+"
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+Completed 422 Unprocessable Entity in 2ms (Views: 0.1ms | ActiveRecord: 0.1ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:08:34 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"mozart", "created_by"=>"1"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (6.2ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "mozart"], ["created_by", "1"], ["created_at", "2018-03-29 13:08:34.195720"], ["updated_at", "2018-03-29 13:08:34.195720"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 11ms (Views: 0.5ms | ActiveRecord: 7.4ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:08:45 -0500
+Processing by TodosController#create as */*
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+Completed 422 Unprocessable Entity in 3ms (Views: 0.2ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:08:52 -0500
+Processing by TodosController#create as */*
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+Completed 422 Unprocessable Entity in 3ms (Views: 0.2ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:08:57 -0500
+Processing by TodosController#create as */*
+  Parameters: {"asdf"=>"asdf"}
+Unpermitted parameter: :asdf
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+Completed 422 Unprocessable Entity in 2ms (Views: 0.2ms | ActiveRecord: 0.1ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:09:06 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"mozart", "created_by"=>"1"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "mozart"], ["created_by", "1"], ["created_at", "2018-03-29 13:09:06.993037"], ["updated_at", "2018-03-29 13:09:06.993037"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 9ms (Views: 0.4ms | ActiveRecord: 6.7ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:09:21 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"Yann tierson", "created_by"=>"1"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Yann tierson"], ["created_by", "1"], ["created_at", "2018-03-29 13:09:21.126408"], ["updated_at", "2018-03-29 13:09:21.126408"]]
+  [1m[35m (6.3ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 9ms (Views: 0.3ms | ActiveRecord: 6.7ms)
+
+
+Started PUT "/todos/1" for 127.0.0.1 at 2018-03-29 08:10:40 -0500
+Processing by TodosController#update as */*
+  Parameters: {"id"=>"1"}
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mItem Load (0.6ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "todos" WHERE "todos"."id" = ?[0m  [["id", 1]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 31ms (ActiveRecord: 2.1ms)
+
+
+Started PUT "/todos/1" for 127.0.0.1 at 2018-03-29 08:31:35 -0500
+Processing by TodosController#update as */*
+  Parameters: {"title"=>"Yiruma", "id"=>"1"}
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+Completed 404 Not Found in 1ms (Views: 0.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:31:41 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 2ms (Views: 1.1ms | ActiveRecord: 0.2ms)
+
+
+Started PUT "/todos/2" for 127.0.0.1 at 2018-03-29 08:31:46 -0500
+Processing by TodosController#update as */*
+  Parameters: {"title"=>"Yiruma", "id"=>"2"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mItem Load (0.2ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 2]]
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "todos" WHERE "todos"."id" = ?[0m  [["id", 2]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 10ms (ActiveRecord: 6.8ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:32:05 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.3ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 2ms (Views: 1.0ms | ActiveRecord: 0.3ms)
+
+
+Started PUT "/todos/3" for 127.0.0.1 at 2018-03-29 08:32:13 -0500
+Processing by TodosController#update as */*
+  Parameters: {"title"=>"Yiruma", "id"=>"3"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mItem Load (0.1ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 3]]
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM "todos" WHERE "todos"."id" = ?[0m  [["id", 3]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 9ms (ActiveRecord: 7.0ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:32:16 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 1ms (Views: 0.5ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:35:13 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"Yann tierson", "created_by"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Yann tierson"], ["created_by", "1"], ["created_at", "2018-03-29 13:35:13.973073"], ["updated_at", "2018-03-29 13:35:13.973073"]]
+  [1m[35m (6.6ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 18ms (Views: 0.4ms | ActiveRecord: 7.7ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:35:17 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 2ms (Views: 1.0ms | ActiveRecord: 0.2ms)
+
+
+Started PUT "/todos/3" for 127.0.0.1 at 2018-03-29 08:39:52 -0500
+Processing by TodosController#update as */*
+  Parameters: {"title"=>"Yiruma", "id"=>"3"}
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+Completed 404 Not Found in 1ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started PUT "/todos/4" for 127.0.0.1 at 2018-03-29 08:39:58 -0500
+Processing by TodosController#update as */*
+  Parameters: {"title"=>"Yiruma", "id"=>"4"}
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+Unpermitted parameter: :id
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "todos" SET "title" = ?, "updated_at" = ? WHERE "todos"."id" = ?[0m  [["title", "Yiruma"], ["updated_at", "2018-03-29 13:39:58.727710"], ["id", 4]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 11ms (ActiveRecord: 6.6ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:40:12 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 1ms (Views: 0.7ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:40:15 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"Yann tierson", "created_by"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Yann tierson"], ["created_by", "1"], ["created_at", "2018-03-29 13:40:15.521074"], ["updated_at", "2018-03-29 13:40:15.521074"]]
+  [1m[35m (2.3ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 5ms (Views: 0.3ms | ActiveRecord: 2.6ms)
+
+
+Started PUT "/todos/4" for 127.0.0.1 at 2018-03-29 08:40:18 -0500
+Processing by TodosController#update as */*
+  Parameters: {"title"=>"Yiruma", "id"=>"4"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+Unpermitted parameter: :id
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 2ms (ActiveRecord: 0.2ms)
+
+
+Started DELETE "/todos/4" for 127.0.0.1 at 2018-03-29 08:40:31 -0500
+Processing by TodosController#destroy as */*
+  Parameters: {"id"=>"4"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mItem Load (0.2ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 4]]
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "todos" WHERE "todos"."id" = ?[0m  [["id", 4]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 15ms (ActiveRecord: 7.3ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:40:37 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 1ms (Views: 0.9ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:44:24 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 1ms (Views: 0.9ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 08:44:38 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"Ludovicio ", "created_by"=>"1"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Ludovicio "], ["created_by", "1"], ["created_at", "2018-03-29 13:44:38.808230"], ["updated_at", "2018-03-29 13:44:38.808230"]]
+  [1m[35m (3.3ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 6ms (Views: 0.3ms | ActiveRecord: 3.7ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:44:47 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.2ms)
+
+
+Started PUT "/todos/6" for 127.0.0.1 at 2018-03-29 08:45:00 -0500
+Processing by TodosController#update as */*
+  Parameters: {"title"=>"Enuaodi ", "id"=>"6"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+Unpermitted parameter: :id
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "todos" SET "title" = ?, "updated_at" = ? WHERE "todos"."id" = ?[0m  [["title", "Enuaodi "], ["updated_at", "2018-03-29 13:45:00.672597"], ["id", 6]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 9ms (ActiveRecord: 7.0ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 08:45:04 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 22:39:54 -0500
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"Ludovicio ", "created_by"=>"1"}
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Ludovicio "], ["created_by", "1"], ["created_at", "2018-03-30 03:39:54.674654"], ["updated_at", "2018-03-30 03:39:54.674654"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 16ms (Views: 0.5ms | ActiveRecord: 2.7ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 22:40:26 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"Ludovicio ", "created_by"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Ludovicio "], ["created_by", "1"], ["created_at", "2018-03-30 03:40:26.650124"], ["updated_at", "2018-03-30 03:40:26.650124"]]
+  [1m[35m (6.2ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 10ms (Views: 0.4ms | ActiveRecord: 6.9ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 22:40:52 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-03-29 22:40:52 -0500
+Processing by TodosController#create as */*
+  Parameters: {"title"=>"Ludovicio ", "created_by"=>"1"}
+  [1m[35m (0.3ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Ludovicio "], ["created_by", "1"], ["created_at", "2018-03-30 03:40:52.436003"], ["updated_at", "2018-03-30 03:40:52.436003"]]
+  [1m[35m (2.5ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 9ms (Views: 0.5ms | ActiveRecord: 3.5ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-03-29 22:44:28 -0500
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 2ms (Views: 1.3ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/2/items" for 127.0.0.1 at 2018-03-29 22:45:09 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/2/items"):
+  
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.3) lib/puma/configuration.rb:225:in `call'
+puma (3.11.3) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.3) lib/puma/server.rb:438:in `process_client'
+puma (3.11.3) lib/puma/server.rb:302:in `block in run'
+puma (3.11.3) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/todos" for 127.0.0.1 at 2018-03-30 08:02:30 -0500
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.6ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+Completed 200 OK in 12ms (Views: 6.1ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/todos/5" for 127.0.0.1 at 2018-03-30 08:02:35 -0500
+Processing by TodosController#show as */*
+  Parameters: {"id"=>"5"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/todos/5/items" for 127.0.0.1 at 2018-03-30 08:02:39 -0500
+Processing by ItemsController#index as */*
+  Parameters: {"todo_id"=>"5"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mItem Load (0.5ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 5]]
+Completed 200 OK in 12ms (Views: 3.3ms | ActiveRecord: 0.9ms)
+
+
+Started POST "/todos/2/items" for 127.0.0.1 at 2018-03-30 08:04:10 -0500
+Processing by ItemsController#create as HTML
+  Parameters: {"name"=>"Listen to 5th Symphony", "done"=>"false", "todo_id"=>"2", "item"=>{"name"=>"Listen to 5th Symphony", "done"=>"false"}}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+Completed 404 Not Found in 1ms (Views: 0.1ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/todos/5/items" for 127.0.0.1 at 2018-03-30 08:04:21 -0500
+Processing by ItemsController#create as HTML
+  Parameters: {"name"=>"Listen to 5th Symphony", "done"=>"false", "todo_id"=>"5", "item"=>{"name"=>"Listen to 5th Symphony", "done"=>"false"}}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+Unpermitted parameters: :todo_id, :item
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[32mINSERT INTO "items" ("name", "done", "todo_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["name", "Listen to 5th Symphony"], ["done", "f"], ["todo_id", 5], ["created_at", "2018-03-30 13:04:21.490864"], ["updated_at", "2018-03-30 13:04:21.490864"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Completed 201 Created in 12ms (Views: 0.3ms | ActiveRecord: 2.0ms)
+
+
+Started GET "/todos/5/items" for 127.0.0.1 at 2018-03-30 08:04:34 -0500
+Processing by ItemsController#index as */*
+  Parameters: {"todo_id"=>"5"}
+  [1m[36mTodo Load (0.2ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mItem Load (0.1ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 5]]
+Completed 200 OK in 2ms (Views: 0.9ms | ActiveRecord: 0.3ms)
+
+
+Started PUT "/todos/5/items/1" for 127.0.0.1 at 2018-03-30 08:05:37 -0500
+Processing by ItemsController#update as HTML
+  Parameters: {"done"=>"true", "todo_id"=>"5", "id"=>"1", "item"=>{"done"=>"true"}}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mItem Load (0.1ms)[0m  [1m[34mSELECT  "items".* FROM "items" WHERE "items"."todo_id" = ? AND "items"."id" = ? LIMIT ?[0m  [["todo_id", 5], ["id", 1], ["LIMIT", 1]]
+Unpermitted parameters: :todo_id, :id, :item
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "items" SET "done" = ?, "updated_at" = ? WHERE "items"."id" = ?[0m  [["done", "t"], ["updated_at", "2018-03-30 13:05:37.627060"], ["id", 1]]
+  [1m[35m (6.4ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 10ms (ActiveRecord: 6.9ms)
+
+
+Started GET "/todos/5/items" for 127.0.0.1 at 2018-03-30 08:05:46 -0500
+Processing by ItemsController#index as */*
+  Parameters: {"todo_id"=>"5"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mItem Load (0.1ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 5]]
+Completed 200 OK in 2ms (Views: 0.8ms | ActiveRecord: 0.2ms)
+
+
+Started DELETE "/todos/5/items/1" for 127.0.0.1 at 2018-03-30 08:06:07 -0500
+Processing by ItemsController#destroy as */*
+  Parameters: {"todo_id"=>"5", "id"=>"1"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mItem Load (0.1ms)[0m  [1m[34mSELECT  "items".* FROM "items" WHERE "items"."todo_id" = ? AND "items"."id" = ? LIMIT ?[0m  [["todo_id", 5], ["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "items" WHERE "items"."id" = ?[0m  [["id", 1]]
+  [1m[35m (6.1ms)[0m  [1m[36mcommit transaction[0m
+Completed 204 No Content in 9ms (ActiveRecord: 6.6ms)
+
+
+Started GET "/todos/5/items" for 127.0.0.1 at 2018-03-30 08:06:15 -0500
+Processing by ItemsController#index as */*
+  Parameters: {"todo_id"=>"5"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mItem Load (0.1ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 5]]
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/todos/5/" for 127.0.0.1 at 2018-03-30 08:06:20 -0500
+Processing by TodosController#show as */*
+  Parameters: {"id"=>"5"}
+  [1m[36mTodo Load (0.1ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+Completed 200 OK in 1ms (Views: 0.3ms | ActiveRecord: 0.1ms)
+
+
